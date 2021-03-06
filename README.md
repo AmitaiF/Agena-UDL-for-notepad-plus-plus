@@ -15,7 +15,7 @@ git clone https://github.com/AmitaiF/Agena-UDL-for-notepad-plus-plus.git
 3. On the menu click on ```Language``` > ```Define your language...```
 4. Click the ```Import``` button.
 5. Select the AgenaUDL.xml file you downloaded.
-## Sorry!
+## The colors
 I'm not a "color expert" or something, and my main goal was to clearly separate between different keywords, comments, etc.
 So you might find my color selection horrible. Sorry for that.
 You can create your own UDL: [Official NPP docs](https://npp-user-manual.org/docs/user-defined-language-system/)
