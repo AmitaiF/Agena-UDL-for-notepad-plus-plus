@@ -1,6 +1,6 @@
 # Agena UDL for Notepad++
 ## What is it?
-It's a file that declares rules for formatting keywords, comments, numbers, and delimiters for the Agena language. 
+It's a file that declares rules for formatting keywords, comments, numbers, and delimiters for the Agena language.
 It can be imported to the Notepad++ app.
 ## Why do we need it?
 When I started programming with Agena, I quickly realized that the official editor of Agena isn't comfortable to work with.
