@@ -18,7 +18,7 @@ git clone https://github.com/AmitaiF/Agena-UDL-for-notepad-plus-plus.git
 ## The colors
 I'm not a "color expert" or something, and my main goal was to clearly separate between different keywords, comments, etc.
 So you might find my color selection horrible. Sorry for that.
-You can create your own UDL: [Official NPP docs](https://npp-user-manual.org/docs/user-defined-language-system/)
+You can create your own UDL: [Official NPP docs](https://npp-user-manual.org/docs/user-defined-language-system/).
 If you want to use my UDL as a base for your UDL, you can just change the required ```fgColor``` attribute in the AgenaUDL.xml file.
 ## Example
 After the warning above, you can see an example of the UDL:
