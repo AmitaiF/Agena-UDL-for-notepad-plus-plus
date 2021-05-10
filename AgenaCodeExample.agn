@@ -1,0 +1,80 @@
+run 'functionCalls';
+run 'flow';
+run 'arithmetic';
+run 'memory';
+
+flowCmds := ['label', 'goto', 'if-goto'];
+functionCallCmds := ['function', 'call', 'return'];
+arithmeticCmds := ['add', 'sub', 'neg', 'eq', 'gt', 'lt', 'and', 'or', 'not'];
+memoryCmds := ['push', 'pop'];
+
+create table VM2Hack;
+
+# main function, that iterate the .vm files
+VM2Hack.main := proc() is
+	print('creating the output file...');
+	# final .asm file
+	local outputFile := io.open('output.asm', 'w');
+	print('created!');
+	print('initializing the start of the asm...');
+	# init the stack position
+	VM2Hack.initStack(outputFile);
+	print('initialized!');
+	# get all files with .vm extension
+	print('geting all the .vm files...');
+	local filesList := os.list(path, '*.vm');
+	if 'Sys.vm' in filesList then
+		VM2Hack.bootstrap(outputFile);
+	fi
+	print('got all the files!');
+	# iterate all the files
+	for i from 1 to size(filesList) by 1 do
+		print('reading file #' & i & ' (' & filesList[i] & ')...');
+		# get lines from the file
+		local lines := io.readlines(filesList[i]);
+		for line in lines do
+			# get words from the line
+			local words := line split ' ';
+			# get the first word
+			local firstWord := words[1];
+			# check if it's an arithmetic command
+			if firstWord in arithmeticCmds then
+				Arithmetic.handleCmd(outputFile, line);
+			# check if it's a memory command
+			elif firstWord in memoryCmds then
+				Memory.handleCmd(outputFile, line, filesList[i]);
+			elif firstWord in flowCmds then
+				Flow.handleCmd(outputFile, line, filesList[i]);
+			elif firstWord in functionCallCmds then
+				FunctionCalls.handleCmd(outputFile, line, filesList[i]);
+			fi
+		od
+		print('finished file #' & i & '!');
+	od
+	print('finished the compilation!');
+	io.close(outputFile);
+end;
+
+# sets the SP to 256
+VM2Hack.initStack := proc(outputFile) is
+	io.writeline(outputFile, '@256');
+	io.writeline(outputFile, 'D=A');
+	io.writeline(outputFile, '@SP');
+	io.writeline(outputFile, 'M=D');
+end;
+
+VM2Hack.bootstrap := proc(outputFile) is
+	FunctionCalls.call(outputFile, 'Sys.init', 0);
+	#io.writeline(outputFile, '@Sys.init');
+	#io.writeline(outputFile, 'D;JMP');
+end;
+
+# adds an infinite loop to the end of the program,
+# in order to avoid executing garbage code
+VM2Hack.endProgram := proc(outputFile) is
+	io.writeline(outputFile, '(EOF_LOOP)');
+	io.writeline(outputFile, '@EOF_LOOP');
+	io.writeline(outputFile, 'D;JMP');
+end;
+
+VM2Hack.main();
